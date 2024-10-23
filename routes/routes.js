@@ -16,6 +16,7 @@ router.post('/deleteItem', AddItemsController.deleteItem);
 router.post('/editItem', AddItemsController.editItem);
 router.post('/returnAllItems', AddItemsController.returnAllItems);
 router.post('/handlePay', PaymentsController.handlePayment);
+router.post('/pay', RegisterController.pay)
 
 
 router.post('/notifications', async (req, res) => {
