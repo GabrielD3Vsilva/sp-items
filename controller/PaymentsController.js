@@ -31,7 +31,7 @@ async function handlePayment ( req, res ) {
             pix_key_type: pixKeyType
         },
         external_reference: 'payment-external-ref',
-        callback_url: 'https://www.yourbackend.com/notifications' // URL para notificações de pagamento
+        callback_url: 'https://sp-items.onrender.com/notifications' // URL para notificações de pagamento
     };
     
     try {
