@@ -132,10 +132,18 @@ async function editItem(req, res) {
 
 async function returnAllItems (req, res) {
     const adm = await db.User.findOne({ email: 'gabrield3vsilva@gmail.com' });
-
-
     res.send(adm.items);
 }
 
 
-module.exports = {AddItemsController, returnShopItems, deleteItem, editItem, returnAllItems}
+async function findShop (req, res) {
+    const {item} = req.body;
+    console.log( item.tel);
+    const shop = await db.User.find({tel: item.tel});
+
+    console.log(shop);
+    res.send(shop);
+    
+}
+
+module.exports = {AddItemsController, returnShopItems, deleteItem, editItem, returnAllItems, findShop}

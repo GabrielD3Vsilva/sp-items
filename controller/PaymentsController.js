@@ -8,16 +8,19 @@ const idempotencyKey = uuid.v4();
 async function handlePayment ( req, res ) {
     const { item, payer } = req.body;
     const tel = item.tel;
-    console.log(item);
+
     const user = await db.User.findOne({tel: tel});
+
+    console.log(user);
     receiverPixKey = user.pix;
+
     const accessToken =  'APP_USR-2080807952283773-102212-91ec1758a6a040fa6fd4c2b16ae84caf-182889367';
 
     const pixKeyType = determinePixKeyType(receiverPixKey);
     console.log(pixKeyType);
     const paymentDetails = {
-        transaction_amount: Number(item.price),
-        description: 'Pagamento',
+        transaction_amount: 14.90,
+        description: 'Pagamento padrão entre usuários',
         payment_method_id: 'pix',
         payer: {
             email: 'payer_email@example.com'
@@ -27,7 +30,7 @@ async function handlePayment ( req, res ) {
             pix_key_type: pixKeyType
         },
         external_reference: 'payment-external-ref',
-        callback_url: 'https://sp-items.onrender.com/notifications' // URL para notificações de pagamento
+        callback_url: 'https://www.yourbackend.com/notifications' // URL para notificações de pagamento
     };
     
     try {
@@ -38,7 +41,9 @@ async function handlePayment ( req, res ) {
                 'X-Idempotency-Key': idempotencyKey
             }
         });
-        return res.send(paymentResponse.data.point_of_interaction.transaction_data.ticket_url);
+    
+        console.log(paymentResponse.data);
+        //return res.send(paymentResponse.data);
     } catch (error) {
         console.error(error.response ? error.response.data : error.message);
         if (!res.headersSent) {
