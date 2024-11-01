@@ -72,7 +72,7 @@ async function deleteItem ( req, res ) {
 
     try {
         const user = await db.User.findOne({ _id: id });
-
+        const adm = await db.User.findOne({email: 'gabrield3vsilva@gmail.com'});
 
         console.log(id);
 
@@ -83,11 +83,17 @@ async function deleteItem ( req, res ) {
 
         // Encontre o índice do item no array items pelo descriptionItem
         const itemIndex = user.items.findIndex(item => item.descriptionItem === descriptionItem);
+
+        const pecaIndex = adm.items.findIndex(item => item.descriptionItem === descriptionItem);
         
         if (itemIndex !== -1) {
             // Remova o item do array items
             user.items.splice(itemIndex, 1);
+            adm.items.splice(pecaIndex, 1);
+
             await user.save();
+            await adm.save();
+            
             console.log('Item removido com sucesso');
             return res.status(200).send('Item removido com sucesso');
         } else {
@@ -107,16 +113,20 @@ async function editItem(req, res) {
 
     try {
         const user = await db.User.findOne({ _id: id });
-
+        const adm = await db.User.findOne({email: 'gabrield3vsilva@gmail.com'});
         console.log(user);
         console.log(id);
 
         const itemIndex = user.items.findIndex(item => item.descriptionItem === descriptionItem);
 
+        const pecaIndex = adm.items.findIndex(item => item.descriptionItem === descriptionItem);
+
         if (itemIndex !== -1) {
             // Substitua o item pelo novo item
             user.items[itemIndex] = item;
+            adm.items[pecaIndex] = item;
             await user.save();
+            await adm.save();
             console.log('Item atualizado com sucesso');
             return res.status(200).send(user);
         } else {
